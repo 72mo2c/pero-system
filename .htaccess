@@ -1,0 +1,138 @@
+# Warehouse SaaS System - Apache Configuration
+# Created: 2025-10-16
+
+# Enable rewrite engine
+RewriteEngine On
+
+# Security headers
+<IfModule mod_headers.c>
+    # Prevent clickjacking
+    Header always append X-Frame-Options DENY
+    
+    # Prevent MIME type sniffing
+    Header set X-Content-Type-Options nosniff
+    
+    # XSS Protection
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Referrer Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # HTTPS enforcement (uncomment if using HTTPS)
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# Protect sensitive files
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sql|conf|config)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Protect PHP files in specific directories
+<Files "config.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "database.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Block access to backup files
+RedirectMatch 403 /backups/.*
+RedirectMatch 403 /logs/.*
+
+# Prevent access to version control directories
+RedirectMatch 404 /\.git
+RedirectMatch 404 /\.svn
+
+# File upload restrictions
+<FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|jsp|asp|sh|cgi)$">
+    <IfModule mod_rewrite.c>
+        RewriteCond %{REQUEST_URI} !^/(developer_portal|warehouse_system)/
+        RewriteRule ^uploads/ - [F,L]
+    </IfModule>
+</FilesMatch>
+
+# Compress text files
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Set cache headers
+<IfModule mod_expires.c>
+    ExpiresActive on
+    
+    # CSS and JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType application/x-javascript "access plus 1 month"
+    
+    # Images
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/ico "access plus 1 month"
+    ExpiresByType image/icon "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 month"
+    
+    # Fonts
+    ExpiresByType font/truetype "access plus 1 month"
+    ExpiresByType font/opentype "access plus 1 month"
+    ExpiresByType application/x-font-woff "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    
+    # Default
+    ExpiresDefault "access plus 2 days"
+</IfModule>
+
+# PHP configuration
+<IfModule mod_php7.c>
+    # Security settings
+    php_flag display_errors Off
+    php_flag log_errors On
+    php_value error_log "logs/php_errors.log"
+    
+    # Session settings
+    php_value session.cookie_httponly 1
+    php_value session.use_only_cookies 1
+    php_value session.cookie_secure 0
+    
+    # File upload settings
+    php_value upload_max_filesize 10M
+    php_value post_max_size 10M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+    php_value memory_limit 256M
+</IfModule>
+
+# Pretty URLs for the system
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/(.*)$ api/index.php?route=$1 [QSA,L]
+
+# Redirect to setup if not installed
+RewriteCond %{REQUEST_URI} !^/setup\.php$
+RewriteCond %{REQUEST_URI} !^/assets/
+RewriteCond %{REQUEST_URI} !^/developer_portal/
+RewriteCond %{REQUEST_URI} !^/warehouse_system/
+RewriteCond %{DOCUMENT_ROOT}/config/installed.lock !-f
+RewriteRule ^(.*)$ setup.php [L,R=302]
+
+# Default document
+DirectoryIndex index.php index.html
+
+# Custom error pages
+ErrorDocument 404 /error-pages/404.html
+ErrorDocument 500 /error-pages/500.html
+ErrorDocument 403 /error-pages/403.html

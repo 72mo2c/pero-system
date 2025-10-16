@@ -1,0 +1,20 @@
+# حماية مجلد AJAX
+# السماح فقط بطلبات AJAX والطلبات المحلية
+
+<Files "*.php">
+    Order Allow,Deny
+    Allow from 127.0.0.1
+    Allow from ::1
+    Allow from localhost
+    
+    # السماح بطلبات AJAX
+    <RequireAll>
+        Require local
+    </RequireAll>
+</Files>
+
+# منع الوصول المباشر لملفات أخرى
+<FilesMatch "\.(log|txt|sql|bak)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>

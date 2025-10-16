@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>تشخيص AJAX</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>تشخيص مشكلة AJAX</h1>
+    <button onclick="testAjax()">اختبار system_status.php</button>
+    <button onclick="testSimple()">اختبار test_system_status.php</button>
+    <div id="result" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;"></div>
+
+    <script>
+        function testAjax() {
+            console.log('Testing system_status.php...');
+            $('#result').html('جاري الاختبار...');
+            
+            $.ajax({
+                url: 'ajax/system_status.php',
+                method: 'GET',
+                dataType: 'text', // استقبال كنص أولاً
+                success: function(response) {
+                    console.log('Raw response:', response);
+                    $('#result').html('<h3>الاستجابة الخام:</h3><pre>' + response + '</pre>');
+                    
+                    // محاولة تحويل إلى JSON
+                    try {
+                        const json = JSON.parse(response);
+                        $('#result').append('<h3>JSON محول:</h3><pre>' + JSON.stringify(json, null, 2) + '</pre>');
+                    } catch (e) {
+                        $('#result').append('<h3>خطأ في تحويل JSON:</h3><p style="color: red;">' + e.message + '</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', xhr);
+                    $('#result').html('<h3>خطأ AJAX:</h3>' +
+                        '<p>Status: ' + xhr.status + '</p>' +
+                        '<p>Error: ' + error + '</p>' +
+                        '<p>Response: ' + xhr.responseText + '</p>');
+                }
+            });
+        }
+        
+        function testSimple() {
+            console.log('Testing test_system_status.php...');
+            $('#result').html('جاري الاختبار...');
+            
+            $.ajax({
+                url: 'ajax/test_system_status.php',
+                method: 'GET',
+                dataType: 'text',
+                success: function(response) {
+                    console.log('Simple test response:', response);
+                    $('#result').html('<h3>استجابة الاختبار البسيط:</h3><pre>' + response + '</pre>');
+                    
+                    try {
+                        const json = JSON.parse(response);
+                        $('#result').append('<h3>JSON محول:</h3><pre>' + JSON.stringify(json, null, 2) + '</pre>');
+                    } catch (e) {
+                        $('#result').append('<h3>خطأ في تحويل JSON:</h3><p style="color: red;">' + e.message + '</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Simple test error:', xhr);
+                    $('#result').html('<h3>خطأ في الاختبار البسيط:</h3>' +
+                        '<p>Status: ' + xhr.status + '</p>' +
+                        '<p>Error: ' + error + '</p>' +
+                        '<p>Response: ' + xhr.responseText + '</p>');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
