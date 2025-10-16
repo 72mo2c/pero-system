@@ -195,7 +195,7 @@ warehouse_saas_system/
 
 - **الإصدار الحالي**: 1.0.0
 - **تاريخ الإصدار**: 2025-10-16
-- **المطور**: MiniMax Agent
+- **المطور**: Mohamed Osama
 
 ## الدعم الفني
 
@@ -203,4 +203,4 @@ warehouse_saas_system/
 
 ---
 
-**© 2025 MiniMax Agent. جميع الحقوق محفوظة.**
+**© 2025 Elbiruni Soft. جميع الحقوق محفوظة.**
