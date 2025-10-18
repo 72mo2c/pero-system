@@ -928,13 +928,13 @@ $current_page = 'sales';
             const container = document.getElementById('products-container');
             const productRow = document.createElement('div');
             productRow.className = 'product-row';
-            productRow.innerHTML = '
+            productRow.innerHTML = `
                 <div class="row align-items-end">
                     <div class="col-md-3">
                         <label class="form-label">المنتج</label>
                         <select class="form-select" name="items[${productRowIndex}][product_id]" onchange="updateProductPrice(this, ${productRowIndex})" required>
                             <option value="">اختر المنتج</option>
-                            ${products.map(p => '<option value="${p.id}" data-price="${p.selling_price}">${p.name} (${p.sku})</option>').join('')}
+                            ${products.map(p => `<option value="${p.id}" data-price="${p.selling_price}">${p.name} (${p.sku})</option>`).join('')}
                         </select>
                     </div>
                     <div class="col-md-2">
@@ -964,7 +964,7 @@ $current_page = 'sales';
                         <input type="text" class="form-control form-control-sm" name="items[${productRowIndex}][notes]" placeholder="ملاحظات على المنتج (اختياري)">
                     </div>
                 </div>
-            ';
+            `;
             
             container.appendChild(productRow);
             productRowIndex++;
@@ -991,7 +991,7 @@ $current_page = 'sales';
         
         // Calculate row total
         function calculateRowTotal(index) {
-            const row = document.querySelector('input[name="items[${index}][quantity]"]').closest('.product-row');
+            const row = document.querySelector(`input[name="items[${index}][quantity]"]`).closest('.product-row');
             const quantity = parseFloat(row.querySelector('input[name*="[quantity]"]').value) || 0;
             const unitPrice = parseFloat(row.querySelector('input[name*="[unit_price]"]').value) || 0;
             const discount = parseFloat(row.querySelector('input[name*="[discount_amount]"]').value) || 0;
@@ -1027,13 +1027,13 @@ $current_page = 'sales';
         
         // View sale details
         function viewSale(id) {
-            fetch('sales.php?action=get_sale&id=${id}')
+            fetch(`sales.php?action=get_sale&id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         const sale = data.sale;
                         
-                        let html = '
+                        let html = `
                             <div class="row">
                                 <div class="col-md-6">
                                     <h6>معلومات عملية البيع</h6>
@@ -1057,18 +1057,18 @@ $current_page = 'sales';
                                     </table>
                                 </div>
                             </div>
-                        ';
+                        `;
                         
                         if (sale.shipping_address) {
-                            html += '<div class="mt-3"><h6>عنوان التسليم</h6><p>${sale.shipping_address}</p></div>';
+                            html += `<div class=\"mt-3\"><h6>عنوان التسليم</h6><p>${sale.shipping_address}</p></div>`;
                         }
                         
                         if (sale.notes) {
-                            html += '<div class="mt-3"><h6>الملاحظات</h6><p>${sale.notes}</p></div>';
+                            html += `<div class=\"mt-3\"><h6>الملاحظات</h6><p>${sale.notes}</p></div>`;
                         }
                         
                         if (sale.items && sale.items.length > 0) {
-                            html += '
+                            html += `
                                 <div class="mt-3">
                                     <h6>المنتجات</h6>
                                     <table class="table table-sm">
@@ -1082,10 +1082,10 @@ $current_page = 'sales';
                                             </tr>
                                         </thead>
                                         <tbody>
-                            ';
+                            `;
                             
                             sale.items.forEach(item => {
-                                html += '
+                                html += `
                                     <tr>
                                         <td>${item.product_name} <small class="text-muted">(${item.product_sku})</small></td>
                                         <td>${item.quantity}</td>
@@ -1093,9 +1093,9 @@ $current_page = 'sales';
                                         <td>${parseFloat(item.discount_amount).toFixed(2)} ر.س</td>
                                         <td>${parseFloat(item.total_price).toFixed(2)} ر.س</td>
                                     </tr>
-                                ';
+                                `;
                                 if (item.notes) {
-                                    html += '<tr><td colspan="5"><small class="text-muted">ملاحظة: ${item.notes}</small></td></tr>';
+                                    html += `<tr><td colspan=\"5\"><small class=\"text-muted\">ملاحظة: ${item.notes}</small></td></tr>`;
                                 }
                             });
                             
@@ -1116,7 +1116,7 @@ $current_page = 'sales';
         
         // Edit sale
         function editSale(id) {
-            fetch('sales.php?action=get_sale&id=${id}')
+            fetch(`sales.php?action=get_sale&id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -1179,7 +1179,7 @@ $current_page = 'sales';
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: 'action=update_status&id=${id}&status=${status}'
+                    body: `action=update_status&id=${id}&status=${status}`
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -1205,7 +1205,7 @@ $current_page = 'sales';
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: 'action=delete&id=${id}'
+                    body: `action=delete&id=${id}`
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -1224,7 +1224,7 @@ $current_page = 'sales';
         
         // Print sale
         function printSale(id) {
-            window.open('print_sale.php?id=${id}', '_blank');
+            window.open(`print_sale.php?id=${id}`, '_blank');
         }
         
         function printSaleModal() {

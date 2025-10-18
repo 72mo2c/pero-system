@@ -809,7 +809,7 @@ $current_page = 'products';
     <script>
         // Edit product
         function editProduct(id) {
-            fetch('products.php?action=get_product&id=${id}')
+            fetch(`products.php?action=get_product&id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -846,7 +846,7 @@ $current_page = 'products';
         
         // View product
         function viewProduct(id) {
-            fetch('products.php?action=get_product&id=${id}')
+            fetch(`products.php?action=get_product&id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -934,7 +934,7 @@ $current_page = 'products';
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: 'action=toggle_status&id=${id}'
+                    body: `action=toggle_status&id=${id}`
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -960,7 +960,7 @@ $current_page = 'products';
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: 'action=delete&id=${id}'
+                    body: `action=delete&id=${id}`
                 })
                 .then(response => response.json())
                 .then(data => {

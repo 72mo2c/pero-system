@@ -103,6 +103,13 @@ class Security {
         
         return $valid;
     }
+
+    /**
+     * Backwards-compatible alias used across the codebase
+     */
+    public static function validateCSRF($token, $name = 'default') {
+        return self::validateCSRFToken($token, $name);
+    }
     
     /**
      * Get CSRF token HTML input

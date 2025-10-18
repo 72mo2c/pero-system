@@ -711,7 +711,7 @@ $current_page = 'warehouses';
     <script>
         // Edit warehouse
         function editWarehouse(id) {
-            fetch('warehouses.php?action=get_warehouse&id=${id}')
+            fetch(`warehouses.php?action=get_warehouse&id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -748,7 +748,7 @@ $current_page = 'warehouses';
         
         // View warehouse
         function viewWarehouse(id) {
-            fetch('warehouses.php?action=get_warehouse&id=${id}')
+            fetch(`warehouses.php?action=get_warehouse&id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -806,7 +806,7 @@ $current_page = 'warehouses';
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: 'action=toggle_status&id=${id}'
+                    body: `action=toggle_status&id=${id}`
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -832,7 +832,7 @@ $current_page = 'warehouses';
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: 'action=delete&id=${id}'
+                    body: `action=delete&id=${id}`
                 })
                 .then(response => response.json())
                 .then(data => {

@@ -315,7 +315,7 @@ try {
     }
     
     function viewTransactions(accountId) {
-        window.location.href = 'transactions.php?account_id=${accountId}';
+        window.location.href = `transactions.php?account_id=${accountId}`;
     }
     
     function deleteAccount(accountId) {
@@ -323,10 +323,10 @@ try {
             // إرسال طلب الحذف
             const form = document.createElement('form');
             form.method = 'POST';
-            form.innerHTML = '
+            form.innerHTML = `
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="account_id" value="${accountId}">
-            ';
+            `;
             document.body.appendChild(form);
             form.submit();
         }
