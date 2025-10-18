@@ -142,7 +142,7 @@ if (!defined('ROOT_PATH')) {
         }
         
         const toastId = 'toast_' + Date.now();
-        const toastHtml = '
+        const toastHtml = `
             <div id="${toastId}" class="toast align-items-center text-white bg-${type} border-0" role="alert">
                 <div class="d-flex">
                     <div class="toast-body">
@@ -151,7 +151,7 @@ if (!defined('ROOT_PATH')) {
                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
                 </div>
             </div>
-        ';
+        `;
         
         toastContainer.insertAdjacentHTML('beforeend', toastHtml);
         
@@ -316,10 +316,10 @@ if (!defined('ROOT_PATH')) {
             const statusType = indicator.getAttribute('data-status-type');
             if (data[statusType]) {
                 indicator.className = 'badge bg-success rounded-pill system-status-indicator';
-                indicator.title = '${statusType}: فعال';
+                indicator.title = `${statusType}: فعال`;
             } else {
                 indicator.className = 'badge bg-danger rounded-pill system-status-indicator';
-                indicator.title = '${statusType}: معطل';
+                indicator.title = `${statusType}: معطل`;
             }
         });
     }

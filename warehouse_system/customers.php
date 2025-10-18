@@ -788,7 +788,7 @@ $current_page = 'customers';
     <script>
         // Edit customer
         function editCustomer(id) {
-            fetch('customers.php?action=get_customer&id=${id}')
+            fetch(`customers.php?action=get_customer&id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -825,7 +825,7 @@ $current_page = 'customers';
         
         // View customer
         function viewCustomer(id) {
-            fetch('customers.php?action=get_customer&id=${id}')
+            fetch(`customers.php?action=get_customer&id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -858,11 +858,11 @@ $current_page = 'customers';
                         ';
                         
                         if (customer.address) {
-                            html += '<div class="mt-3"><h6>العنوان</h6><p>${customer.address}</p></div>';
+                            html += `<div class=\"mt-3\"><h6>العنوان</h6><p>${customer.address}</p></div>`;
                         }
                         
                         if (customer.tax_number || customer.commercial_registration) {
-                            html += '
+                            html += `
                                 <div class="mt-3">
                                     <h6>المعلومات التجارية</h6>
                                     <table class="table table-borderless">
@@ -873,11 +873,11 @@ $current_page = 'customers';
                                         <tr><td><strong>الرصيد الحالي:</strong></td><td>${parseFloat(customer.current_balance).toFixed(2)} ر.س</td></tr>
                                     </table>
                                 </div>
-                            ';
+                            `;
                         }
                         
                         if (customer.notes) {
-                            html += '<div class="mt-3"><h6>الملاحظات</h6><p>${customer.notes}</p></div>';
+                            html += `<div class=\"mt-3\"><h6>الملاحظات</h6><p>${customer.notes}</p></div>`;
                         }
                         
                         document.getElementById('customerDetails').innerHTML = html;
@@ -901,7 +901,7 @@ $current_page = 'customers';
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: 'action=toggle_status&id=${id}'
+                    body: `action=toggle_status&id=${id}`
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -927,7 +927,7 @@ $current_page = 'customers';
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: 'action=delete&id=${id}'
+                    body: `action=delete&id=${id}`
                 })
                 .then(response => response.json())
                 .then(data => {

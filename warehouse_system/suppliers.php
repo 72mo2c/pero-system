@@ -828,7 +828,7 @@ $current_page = 'suppliers';
     <script>
         // Edit supplier
         function editSupplier(id) {
-            fetch('suppliers.php?action=get_supplier&id=${id}')
+            fetch(`suppliers.php?action=get_supplier&id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -865,7 +865,7 @@ $current_page = 'suppliers';
         
         // View supplier
         function viewSupplier(id) {
-            fetch('suppliers.php?action=get_supplier&id=${id}')
+            fetch(`suppliers.php?action=get_supplier&id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -942,7 +942,7 @@ $current_page = 'suppliers';
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: 'action=toggle_status&id=${id}'
+                    body: `action=toggle_status&id=${id}`
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -968,7 +968,7 @@ $current_page = 'suppliers';
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: 'action=delete&id=${id}'
+                    body: `action=delete&id=${id}`
                 })
                 .then(response => response.json())
                 .then(data => {
